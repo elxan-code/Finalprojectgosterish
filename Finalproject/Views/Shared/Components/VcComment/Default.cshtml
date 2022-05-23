@@ -1,0 +1,74 @@
+﻿@model Comment
+@inject IHttpContextAccessor _httpContext
+
+<div id="review_form_wrapper">
+    <div id="review_form">
+
+        <form asp-controller="product" asp-action="Message" method="post"
+              id="commentform" class="comment-form">
+            <input type="text" hidden asp-for="@Model.ProductId" value="@ViewBag.Id" />
+
+            
+                <div style="margin-top: 40px; margin-bottom: 25px; " class="col-lg-12 user-rate">
+                    <p>Your assessment</p>
+                    <div class="rating-group">
+                        <div class="rate-number"></div>
+                        <fieldset class="rate rateClass">
+                            <input  type="radio" id="rating10" name="star" value="5"><label for="rating10" title="5"></label>
+                           
+                            <input type="radio" id="rating8" name="star" value="4"><label for="rating8" title="4"></label>
+                          
+                            <input type="radio" id="rating6" name="star" value="3"><label for="rating6" title="3"></label>
+                         
+                            <input type="radio" id="rating4" name="star" value="2"><label for="rating4" title="2"></label>
+                 
+                            <input type="radio" id="rating2" name="star" value="1"><label for="rating2" title="1"></label>
+                         
+                        </fieldset>
+
+                    </div>
+                </div>
+            
+
+
+
+
+
+
+
+
+            <p class="comment-form-author  ">
+                <label for="author">
+                    Name<span class="required">*</span>
+                </label>
+                <input id="author" class="form-control" asp-for="@Model.Name" type="text" value="" size="30"
+                       required="">
+            </p>
+            <p class="comment-form-email ">
+                <label for="email">
+                    Email<span class="required">*</span>
+                </label>
+                <input id="email" class="form-control"  asp-for="@Model.Email" type="email" value="" size="30"
+                       required="">
+            </p>
+
+
+
+            <p class="comment-form-comment ">
+                <label for="comment">
+                    Your review <span class="required">*</span>
+                </label>
+                <textarea id="comment" class="form-control"  asp-for="@Model.Destiraction" cols="45" rows="8"
+                          required="">
+                                                        </textarea>
+            </p>
+            <p class="form-submit">
+            <p class="form-submit">
+                <input type="submit" style="background-color:red"
+                       class="submit btn btn-success" value="Submit">
+            </p>
+        </form>
+
+    </div>
+</div>
+

@@ -1,0 +1,103 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div>
+    <form asp-action="WriteComment" method="post">
+        <input type="text" placeholder="id" name="ProductId" value="@ViewBag.Id" required />
+        <input type="text" placeholder="Name" name="Name" required />
+        <input type="text" placeholder="Email" name="Email" required />
+        <textarea name="Destiraction" required>  </textarea>
+        <input type="submit" onclick="Ajax()" value="Gonder" />
+
+    </form>
+
+    <h2 id="name"></h2>
+    <h2 id="email"></h2>
+    <h2 id="message"></h2>
+
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetSubCategory();
+    })
+   
+    var GetSubCategory= function () {
+         $.ajax({
+            url: '@Url.Action("GetComment", "Product")',
+            method: 'GET',
+            
+            success: function (data) {
+              $("#name").text(data.Id)
+                $("#email").text(data.Email)
+                $("#name").text(data.Name)
+
+            },
+            error: function () {
+            }
+           });
+    }
+</script>
+
+<!--<div id="review_form_wrapper">
+    <div id="review_form">
+
+        <form asp-controller="product" asp-action="WriteComment" method="post"
+              id="commentform" class="comment-form">
+            <input   type="hidden" />
+            <input   type="hidden" />
+
+            <p class="comment-notes">
+                <span id="email-notes">Your email address will not be published.</span>
+                Required fields are marked <span class="required">*</span>
+            </p>
+            <p class="comment-form-author">
+                <label for="author">
+                    Name<span class="required">*</span>
+                </label>
+                <input id="author"   type="text" value="" size="30"
+                       required="">
+            </p>
+            <p class="comment-form-email">
+                <label for="email">
+                    Email<span class="required">*</span>
+                </label>
+                <input id="email"   type="email" value="" size="30"
+                       required="">
+            </p>-->
+@*<p class="comment-form-cookies-consent">
+            type="checkbox" value="yes">
+            <input id="wp-comment-cookies-consent"
+                   name="wp-comment-cookies-consent"
+            <label for="wp-comment-cookies-consent">
+                Save my name, email, and
+                website in
+                this browser for the next time I comment.
+            </label>
+        </p>
+    <div class="comment-form-rating">
+            <label>Your rating</label>
+            <p class="stars">
+                <span></span><span></span><span></span><span></span><span></span>
+            </p>
+
+        </div>
+    <<p class="comment-form-comment">
+            <label for="comment">
+                Your review <span class="required">*</span>
+            </label>
+            <textarea id="comment"   cols="45" rows="8"
+                      required="">
+                                                    </textarea>
+        </p>
+        <p class="form-submit">
+            <button type="submit"
+                   class="submit" value="Submit">sasas
+        </button>
+    </form>
+    </div>-->-->*@
+<!-- #respond -->
+<!--</div>-->
+<!--</div>-->

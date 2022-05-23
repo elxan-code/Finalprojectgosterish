@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Finalproject.Models.Sale>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.No)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Shipping)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomUser.Address)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.SaleItems.Select(a => a.Product.Model))
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SaleItems.Select(a => a.Product.Brand))
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SaleItems.Select(a => a.Product.Id))
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(m => m.Id))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Shipping)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomUser.Address)
+                </td>
+
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.SaleItems.Where(a => a.ProductId == item.Id))
+                </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.SaleItems.Select(a => a.Product.Brand))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SaleItems.Select(a => a.Product.Id))
+                    </td>*@
+            <td>
+
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <a asp-area="admin" asp-controller="Sales" asp-action="downloadtoexcel"><img src="~/img/excel.png" alt="Alternate Text" width="50" /></a>
+            </td>
+        </tr>
+    </tfoot>
+</table>

@@ -1,0 +1,140 @@
+﻿@model VmChat
+@inject UserManager<IdentityUser> _userManager
+
+
+    <link href="~/scss/ssssss.css" rel="stylesheet" />
+    <link href="~/scss/chattstyle.css" rel="stylesheet" />
+
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 meess">
+                <h3 class="name text-white" style=" top: -59px; text-align: center; left: 254px; ">
+                    <i class="fas fa-user"></i>@Model.Reciever.Name
+                </h3>
+                <div class="scroll">
+                    <div class="message">
+
+                        @foreach (var item in Model.Messages)
+                        {
+            <div id="asaqi" class="@(item.SenderId==_userManager.GetUserId(User)?"sender":"reciver")">
+                @item.Text
+            </div>}
+
+                    </div>
+                    <div class="input-group  mt-3">
+                        <input type="text" class="form-control rounded-pill mb-3 " placeholder="Mesaj yazn" id="message">
+                        <input hidden id="reciverid" value="@Model.Reciever.Id">
+                        <input hidden id="senderid" value="@_userManager.GetUserId(User)">
+                        <button class="btn btn-dark rounded-pill mb-3 " type="button" id="sendMessage">  <i class="fas fa-paper-plane"></i>  </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+            //Disable send button until connection is established
+            //document.getElementById("sendButton").disabled = true;
+
+            connection.on("ReceiveMessage", function (senderid, message) {
+
+                var reciverid = document.getElementById("reciverid").value;
+                if (reciverid == senderid) {
+                    var div = document.createElement("div");
+                    div.classList.add("reciver");
+                    div.textContent = message;
+                    document.getElementsByClassName("message")[0].appendChild(div);
+                    var div = document.getElementsByClassName("message")[0];
+                    div.scrollTop = div.scrollHeight;
+                }
+            });
+
+            connection.start().then(function () {
+                document.getElementById("sendButton").disabled = false;
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            document.getElementById("sendMessage").addEventListener("click", function (event) {
+                var reciverid = document.getElementById("reciverid").value;
+                var senderid = document.getElementById("senderid").value;
+                var message = document.getElementById("message").value;
+                if (message !== "" && reciverid !== "" && senderid !== "") {
+
+                    connection.invoke("SendPrivate", reciverid, senderid, message).catch(function (err) {
+                        return console.error(err.toString());
+                    });
+                    event.preventDefault();
+
+                    var div = document.createElement("div");
+                    div.classList.add("sender")
+                    div.textContent = message;
+
+
+
+                    document.getElementsByClassName("message")[0].appendChild(div);
+                    document.getElementById("message").value = "";
+
+                    var div = document.getElementsByClassName("message")[0];
+                    div.scrollTop = div.scrollHeight;
+                }
+            });
+
+            var input = document.getElementById("message");
+
+            // Execute a function when the user releases a key on the keyboard
+            input.addEventListener("keypress", function (event) {
+                // Number 13 is the "Enter" key on the keyboard
+
+                if (event.keyCode === 13) {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    //document.getElementById("sendMessage").click();
+                    var reciverid = document.getElementById("reciverid").value;
+                    var senderid = document.getElementById("senderid").value;
+                    var message = document.getElementById("message").value;
+                    if (message !== "" && reciverid !== "" && senderid !== "") {
+
+                        connection.invoke("SendPrivate", reciverid, senderid, message).catch(function (err) {
+                            return console.error(err.toString());
+                        });
+                        event.preventDefault();
+
+                        var div = document.createElement("div");
+                        div.classList.add("sender")
+                        div.textContent = message;
+
+
+
+                        document.getElementsByClassName("message")[0].appendChild(div);
+                        document.getElementById("message").value = "";
+
+                        var div = document.getElementsByClassName("message")[0];
+                        div.scrollTop = div.scrollHeight;
+                    }
+
+                }
+
+            });
+
+            var div = document.getElementsByClassName("message")[0];
+            div.scrollTop = div.scrollHeight;
+
+
+        })
+
+
+
+
+    </script>

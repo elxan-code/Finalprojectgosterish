@@ -1,0 +1,647 @@
+﻿@model VmComment
+
+@{ ViewData["Title"] = "SpecialDeatails"; }
+
+<link rel="stylesheet" href="~/style5152.css?ver=1.0">
+<link rel="stylesheet" href="~/scss/style.css">
+
+@{int count = Model.Products.Id.ToString().Count();}
+<div class="site page-content woocommerce">
+
+    <div class="content-area shop-single-v1-section container">
+        <div class="product">
+            <div class="product-top-image">
+                <div class="images">
+                    <div id="slider" class="flexslider">
+                        <div class="flex-viewport">
+                            <ul class="slides">
+                                @{ DateTime? itemDiscount = Model.Products.DiscountDate;
+
+                        @foreach (var item in Model.Products.ProductToProduct)
+                        {
+                            foreach (var item2 in item.ProductImages)
+                            {
+            <li>
+                <a href="#" class="swipebox" title="">
+                    <img src="~/ProductDetails/@item2.Image"
+                         class="attachment-shop_single size-shop_single wp-post-image" alt="#">
+                </a>
+            </li>}
+                        } }
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="carousel" class="flexslider thumbnail_product">
+                        <div class="flex-viewport">
+                            <ul class="slides">
+                                @{ int i = 1;}
+                                @foreach (var item in Model.Products.ProductToProduct)
+                                {
+                                    foreach (var item2 in item.ProductImages)
+                                    {
+                    <li class="@(i == 1 ? "flex-active-slide" : "")" style=" width: 530px; float: left; display: block;">
+                        <img src="~/ProductDetails/@item2.Image"
+                             class="attachment-thumbnail size-thumbnail wp-post-image" alt="#">
+                    </li>}
+
+                                    i++;
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary entry-summary">
+                    <h1 class="product_title entry-title">@Model.Products.Brand</h1>
+                    <span class="rating">
+                        <div class="col-lg-12 user-rate">
+                                 @{var s = Model.Comments.Select(q=>q.Star).ToArray().ToList();
+                                     //var q = Convert.ToInt32(s);
+
+                                }
+                            @for (int b = 0; b < s.Count; b++)
+                            {
+                                if (s.Count > 1)
+                                {
+
+
+
+
+                                    if (b < 1)
+                                    {
+                                      <div class="rating-groupp">
+                            <fieldset class="rate rateClass">
+                                <label for="rating2" class="@( Model.Comments.Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(a => a.Star >= 1).Count() >= 5 ? "star" : "" )" title="5"></label>
+
+                                <label for="rating2" class="@( Model.Comments.Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(a => a.Star >= 1).Count() >= 4 ? "star" : "" )" title="4"></label>
+
+                                <label for="rating2" class="@( Model.Comments.Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(a => a.Star >= 1).Count() >= 3 ? "star" : "" )" title="3"></label>
+
+                                <label for="rating2" class="@( Model.Comments.Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(a => a.Star >= 1).Count() >= 2 ? "star" : "" )" title="2"></label>
+
+                                <label for="rating2" class="@( Model.Comments.Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(a => a.Star >= 1).Count() >= 1 ? "star" : "" )" title="1"></label>
+
+                            </fieldset>
+
+                        </div>
+                                    }
+
+                                }
+                            }
+                        </div>
+
+                        <span class="number-review">( @Model.Comments.Count() customer reviews )</span>
+                        <p class="number-review">( @Model.Comments.Where(a => a.Star >= 1).Count() customer raiting )</p>
+                    </span>
+                    <p class="price">
+                        <span class="woocommerce-Price-amount amount">
+                            @if (itemDiscount != null && itemDiscount > DateTime.Now)
+                            {
+                <h5 class="latestp1" style="color: red;">@Model.Products.DiscountPrice$</h5>
+                <span class="woocommerce-Price-currencySymbol" style=" text-decoration: line-through; font-size: 17px;">@Model.Products.Price$ </span> }
+                            else
+                            {
+
+                        <span class="woocommerce-Price-currencySymbol">@Model.Products.Price$</span>}
+
+                        </span>
+                    </p>
+                    <div class="woocommerce-product-details__short-description">
+                        @*<p>@Model.About</p>*@
+                    </div>
+                    <form class="cart" action="#" method="post"
+                          enctype="multipart/form-data">
+                        <div>
+                            @*<div class="btn-group">
+                                <button type="button" class="prev btn ">-</button>
+                                <input type="button" class="show-number btn " />@count
+                                <button type="button" class="next btn ">+</button>
+                            </div>*@
+                            @*<div>
+                                <a class="minus increment prev btn" href="#">-</a>
+                                <input type="text" disabled id="adults" class="show-number btn" size="10" value="0">
+                                <input type="text" hidden id="qiymet" name="name" value="@Convert.ToInt32(Model.Products.Price)" />
+                                <a class="plus increment next btn" href="#">+</a>
+                                <input type="text" disabled id="sum" class="show-number btn" value="@Convert.ToInt32(Model.Products.Price)" />
+                            </div>*@
+                            <div class="btn-add-to-cart">
+                                <a asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Products.Id"class="btn add-to-cart">ADD TO CART</a>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="yith-wcwl-add-button">
+                        @*<a asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Products.Id" class="btn foradd   ">Add to cart</a>*@
+                        @* <a asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" href="wishlist.html"><i class="fa fa-heart"></i> <span>Add to Wishlist</span></a>*@
+                    </div>
+                    <div class="product_meta">
+                        <span class="sku_wrapper">SKU: <span class="sku">@Model.Products.Brand</span></span>
+                        <span class="posted_in">
+                            Categories:
+                            <a href="shop.html" rel="tag">@Model.Products.Model</a>
+                        </span>
+                      
+
+                    </div>
+                    <div class="product-share">
+                        <span>Share </span>
+                        <div class="item-social">
+                            <a class="face" title="Share on Facebook"
+                               href="http://www.facebook.com/sharer.php?">#facebook</a>
+                            <a class="twitter" title="Tweet this!"
+                               href="https://twitter.com/intent/tweet?">#twitter</a>
+                            <a class="google"
+                               href="https://plus.google.com/share?url=">#google</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--tabs-->
+            <div class="woocommerce-tabs wc-tabs-wrapper">
+                <ul class="nav nav-tabs tabs" role="tablist">
+
+                    <li class="nav-item ">
+                        <a href="#tab-additional_information" class="nav-link show active" data-toggle="tab"
+                           id="tab-title-additional_information" role="tab"
+                           aria-controls="tab-additional_information">
+                            Additional
+                            information
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tab-reviews" class="nav-link" data-toggle="tab" id="tab-title-reviews" role="tab"
+                           aria-controls="tab-reviews">Reviews (@Model.Comments.Count() ) </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+
+                    <div class="tab-pane fade     @(ViewBag.salam == "sasaasas"? "": "active show")    "
+                         id="tab-additional_information" role="tabpanel"
+                         aria-labelledby="tab-title-additional_information">
+
+                        <h2>Additional information</h2>
+
+                        <table class="woocommerce-product-attributes shop_attributes">
+                            <tbody>
+                                <tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_pa_size">
+                                    <th class="woocommerce-product-attributes-item__label">Model</th>
+                                    <td class="woocommerce-product-attributes-item__value">
+                                        <p>@Model.Products.Model  </p>
+                                    </td>
+                                </tr>
+                                <tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_pa_brand">
+                                    <th class="woocommerce-product-attributes-item__label">BRAND</th>
+                                    <td class="woocommerce-product-attributes-item__value">
+                                        <p>@Model.Products.Brand  </p>
+                                    </td>
+                                </tr>
+                                <tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_pa_color">
+                                    <th class="woocommerce-product-attributes-item__label">COLOR</th>
+                                    <td class="woocommerce-product-attributes-item__value">
+                                        <p>
+                                          @Model.Products.Color  
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                    <div class="tab-pane fade    @(ViewBag.salam == null? "" : "active show" )  " id="tab-reviews" role="tabpanel" aria-labelledby="tab-title-reviews">
+                        <div id="reviews" class="woocommerce-Reviews">
+                            <div id="comments" style="overflow: auto; height: 300px; display:inline; width:420px">
+                                <h2 class="woocommerce-Reviews-title">
+                                    @Model.Comments.Count() reviews for <span>@Model.Products.Model</span>
+                                </h2>
+
+
+
+                                @foreach (var item in Model.Comments)
+                                {
+                        <div class="product-comment-content" style=" border: 2px solid #7a937a; padding: 18px; width: 356px; border-radius: 0px 27px 27px 27px; margin-bottom: 30px;">
+
+                            <p class="meta">
+                                <div class="col-lg-12 user-rate">
+                                    <div class="rating-groupp">
+                                        <fieldset class="rate rateClass">
+                                            <label for="rating10" class="@(item.Star == 5 ? "star" : "" )"  title="5"></label>
+
+                                          <label for="rating8" class="@(item.Star >= 4 ? "star" : "" )" title="4"></label>
+
+                                            <label for="rating6" class="@(item.Star >= 3 ? "star" : "" )"title="3"></label>
+
+                                         <label for="rating4" class="@(item.Star >= 2 ? "star" : "" )"title="2"></label>
+
+                                           <label for="rating2"class="@(item.Star >= 1 ? "star" : "" )"title="1"></label>
+
+                                        </fieldset>
+
+                                    </div>
+                                </div>
+                                <h5 style="display:inline-block">@item.Name</h5>--
+                                <span>@item.CreatedDate.ToString("dd MMM yyyy") </span>
+                            </p><div class="description">
+                                <p>@item.Destiraction</p>
+                            </div>
+                        </div>}
+
+
+
+
+                            </div>
+
+
+                            @*<div id="review_form_wrapper">
+            <div id="review_form">
+
+                <form asp-controller="product" asp-action="Message" method="post"
+                      id="commentform" class="comment-form">
+                    <input type="text"   asp-for="@Model.Comment.ProductId" value="@ViewBag.Id" />
+
+
+                    <p class="comment-form-author  ">
+                        <label for="author">
+                            Name<span class="required">*</span>
+                        </label>
+                        <input id="author" asp-for="@Model.Comment.Name" type="text" value="" size="30"
+                               required="">
+                    </p>
+                    <p class="comment-form-email ">
+                        <label for="email">
+                            Email<span class="required">*</span>
+                        </label>
+                        <input id="email" asp-for="@Model.Comment.Email" type="email" value="" size="30"
+                               required="">
+                    </p>
+
+
+
+                    <p class="comment-form-comment ">
+                        <label for="comment">
+                            Your review <span class="required">*</span>
+                        </label>
+                        <textarea id="comment" asp-for="@Model.Comment.Destiraction" cols="45" rows="8"
+                                  required="">
+                                    </textarea>
+                    </p>
+                    <p class="form-submit">
+                    <p class="form-submit">
+                        <input type="submit" style="background-color:red"
+                               class="submit btn btn-success" value="Submit">
+                    </p>
+                </form>
+            </div>
+        </div>*@
+                            @await Component.InvokeAsync("VcComment")
+                        </div>
+
+
+
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end tabs-->
+        @*<section class="related products">
+            <h2>Related products</h2>
+            <ul class="products columns-4">
+                <li class="product">
+                    <div class="inner-item-product">
+                        <div class="product-image">
+                            <span class="onsale">Sale</span>
+                            <a href="simple-product.html" class="wp-post-image">
+                                <img src="images/product/product16.jpg" alt="">
+                                <img src="images/product/product15.jpg"
+                                     class="product-change-images"
+                                     alt="">
+                            </a>
+                            <div class="box-hover">
+                                <a href="javascript:void(0)" class="quick-view" data-toggle="modal"
+                                   data-target="#quickview">
+
+                                </a>
+                                <div class="yith-wcwl-add-to-wishlist">
+                                    <a href="#"
+                                       class="add_to_wishlist single_add_to_wishlist">
+                                    </a>
+                                </div>
+                                <a href="#" data-quantity="1"
+                                   class="button product_type_simple add_to_cart_button ajax_add_to_cart"></a>
+                            </div>
+                        </div>
+                        <div class="wrapper-content-item">
+                            <h2 class="woocommerce-loop-product_title">
+                                <a href="simple-product.html">
+                                    Weaver hat
+                                    v2
+                                </a>
+                            </h2>
+                            <span class="price">
+                                <del>
+                                    <span class="woocommerce-Price-amount amount">
+                                        <span class="woocommerce-Price-currencySymbol">$</span>40
+                                    </span>
+                                </del> <ins>
+                                    <span class="woocommerce-Price-amount amount">
+                                        <span class="woocommerce-Price-currencySymbol">$</span>35
+                                    </span>
+                                </ins>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="product">
+                    <div class="inner-item-product">
+                        <div class="product-image">
+                            <a href="simple-product.html" class="wp-post-image">
+                                <img src="images/product/product15.jpg" alt="">
+                                <img src="images/product/product16.jpg"
+                                     class="product-change-images"
+                                     alt="">
+                            </a>
+                            <div class="box-hover">
+                                <a href="javascript:void(0)" class="quick-view" data-toggle="modal"
+                                   data-target="#quickview">
+
+                                </a>
+                                <div class="yith-wcwl-add-to-wishlist">
+                                    <a href="#"
+                                       class="add_to_wishlist single_add_to_wishlist">
+                                    </a>
+                                </div>
+                                <a href="#" data-quantity="1"
+                                   class="button product_type_simple add_to_cart_button ajax_add_to_cart"></a>
+                            </div>
+                        </div>
+                        <div class="wrapper-content-item">
+                            <h2 class="woocommerce-loop-product_title">
+                                <a href="simple-product.html">Weaver hat v2</a>
+                            </h2>
+                            <span class="price">
+                                <span class="woocommerce-Price-amount amount">
+                                    <span class="woocommerce-Price-currencySymbol">$</span>115
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="product">
+                    <div class="inner-item-product">
+                        <div class="product-image">
+                            <a href="simple-product.html" class="wp-post-image">
+                                <img src="images/product/Rose-short.jpg" alt="">
+                                <img src="images/product/Pastel-Jogger.jpg"
+                                     class="product-change-images"
+                                     alt="">
+                            </a>
+                            <div class="box-hover">
+                                <a href="javascript:void(0)" class="quick-view" data-toggle="modal"
+                                   data-target="#quickview">
+
+                                </a>
+                                <div class="yith-wcwl-add-to-wishlist">
+                                    <a href="#"
+                                       class="add_to_wishlist single_add_to_wishlist">
+                                    </a>
+                                </div>
+                                <a href="#" data-quantity="1"
+                                   class="button product_type_simple add_to_cart_button ajax_add_to_cart"></a>
+                            </div>
+                        </div>
+                        <div class="wrapper-content-item">
+                            <h2 class="woocommerce-loop-product_title">
+                                <a href="simple-product.html">Rose Short</a>
+                            </h2>
+                            <span class="price">
+                                <span class="woocommerce-Price-amount amount">
+                                    <span class="woocommerce-Price-currencySymbol">$</span>115
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="product">
+                    <div class="inner-item-product">
+                        <div class="product-image">
+                            <a href="simple-product.html" class="wp-post-image">
+                                <img src="images/product/sneaker3.jpg" alt="">
+                                <img src="images/product/sneaker.jpg" class="product-change-images"
+                                     alt="">
+                            </a>
+                            <div class="box-hover">
+                                <a href="javascript:void(0)" class="quick-view" data-toggle="modal"
+                                   data-target="#quickview">
+
+                                </a>
+                                <div class="yith-wcwl-add-to-wishlist">
+                                    <a href="#"
+                                       class="add_to_wishlist single_add_to_wishlist">
+                                    </a>
+                                </div>
+                                <a href="#" data-quantity="1"
+                                   class="button product_type_simple add_to_cart_button ajax_add_to_cart"></a>
+                            </div>
+                        </div>
+                        <div class="wrapper-content-item">
+                            <h2 class="woocommerce-loop-product_title">
+                                <a href="simple-product.html">Sneaker v2</a>
+                            </h2>
+                            <span class="price">
+                                <span class="woocommerce-Price-amount amount">
+                                    <span class="woocommerce-Price-currencySymbol">$</span>60
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>*@
+    </div>
+</div>
+
+    </div>
+<!-- #content -->
+@*<section id="left">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12  specialsimage">
+
+                                    @{ DateTime? itemDiscount = Model.DiscountDate;
+
+                            <div class="carddetails">
+                                <img class="tukendim" src="~/UploadsProducts/@Model.Image" alt="">
+                                @if (itemDiscount != null && itemDiscount > DateTime.Now)
+                                {
+                    <span class="specialspan">@Model.Discountfaiz</span>}
+                                <div class="card-body">
+                                    <h6 class="card-title">@Model.Brand @Model.Model</h6>
+                                    <div class="fontsizedetails">
+                                        <p>Brand:@Model.Brand</p>
+                                        <p>Model:@Model.Model</p>
+                                        <p>Color:@Model.Color</p>
+                                    </div>
+
+
+                                    <div class="d-flex">
+                                        @if (itemDiscount != null && itemDiscount > DateTime.Now)
+                                        {
+                            <h5 class="latestp1">@Model.DiscountPrice</h5>
+                                            <p class="latestp2">@Model.Price</p> }
+                                        else
+                                        {
+
+                            <h5 class="latestp1">@Model.Price</h5>}
+                                    </div>
+                                    <i class="fa-solid fa-cart-shopping c1"></i>
+                                    <a asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn foradd   ">Add to cart</a>
+                                </div>
+                            </div> }
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="forborder">
+                        <h5>Information</h5>
+                        <a href="">
+                            <p>About us</p>
+                        </a>
+                        <a href="">
+                            <p>Delivery Information </p>
+                        </a>
+                        <a href="">
+                            <p>Privacy Policy </p>
+                        </a>
+                        <a href="">
+                            <p>Terms & Conditions </p>
+                        </a>
+                        <a href="">
+                            <p>Contact Us </p>
+                        </a>
+                    </div>
+
+                    <img class="reklamucun" src="/img/left-banner-315x460 (1).jpg" alt="">
+                    <div class="forborder">
+                        <h5>Latest</h5>
+
+                        <div class="d-flex forhoverimage">
+                            <a href="">
+                                <div class="imgg">
+
+                                </div>
+                                <div class="latest">
+                                    MacBook Pro (Retina, 15-inch, 8-Core CPU)
+                                    <div class="d-flex">
+                                        <p class="latestp1">$26.00</p>
+                                        <p class="latestp2">$241.99</p>
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+                        <div class="d-flex forhoverimage">
+                            <a href="">
+                                <div class="imgg">
+
+                                </div>
+                                <div class="latest">
+                                    MacBook Pro (Retina, 15-inch, 8-Core CPU)
+                                    <div class="d-flex">
+                                        <p class="latestp1">$26.00</p>
+                                        <p class="latestp2">$241.99</p>
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+                        <div class="d-flex forhoverimage">
+                            <a href="">
+
+                                <div class="imgg">
+
+                                </div>
+                                <div class="latest">
+                                    MacBook Pro (Retina, 15-inch, 8-Core CPU)
+                                    <div class="d-flex">
+                                        <p class="latestp1">$26.00</p>
+                                        <p class="latestp2">$241.99</p>
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </section>*@
+                            <section id="button">
+                                <a class="top_button" title="Back To Top" href="#" style="display: block;"></a>
+                            </section>
+
+                            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $('sagol').click(function () {
+                                        $('necesen').removeClass("active show");
+                                        $('salam').addClass("active show");
+                                    });
+
+
+
+                                    $('.increment').click(function () {
+                                        var valueElement = $('#' + $(this).siblings('input').attr('id'));
+                                        var sum = $("#sum");
+                                        var qiymet = $("#qiymet");
+
+                                        if ($(this).hasClass('plus')) {
+                                            valueElement.val(Math.max(parseInt(valueElement.val()) + 1));
+                                            console.log(sum.val());
+                                        }
+                                        else if (valueElement.val() > 0) // Stops the value going into negatives
+                                        {
+                                            valueElement.val(Math.max(parseInt(valueElement.val()) - 1));
+                                          
+                                        }
+                                        sum.val(Math.max(parseInt(qiymet.val()) * valueElement.val()));
+
+                                        //var vurma = (parseInt(sum.val()));
+                                        //var vur = (vurma * 2);
+                                        //sum.val(vur);
+
+
+                                        return false;
+                                    });
+
+
+                                })
+
+
+                            </script>

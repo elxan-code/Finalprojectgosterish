@@ -1,0 +1,79 @@
+﻿@model Finalproject.Models.FeatureTitle
+@inject IHttpContextAccessor _httpContext
+ 
+
+<h1>Create</h1>
+
+<h4>FeatureTitle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubFeatureId" class="control-label"></label>
+                <select asp-for="SubFeatureId" class="form-control" asp-items="ViewBag.SubFeatureId"></select>
+                @ViewBag.say
+                @*@foreach (var item in ViewBag.sagol)
+                {
+                    <label asp-for="@item" class="control-label"></label>
+                    <input asp-for="SubFeatureId" />
+                }*@
+            </div>
+            <div class="form-group">
+                
+              @ViewBag.Id
+                   
+             </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+</form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+     $(document).ready(function () {
+        GetSubFeature();
+    })
+    $("#categoryId").change(function () {
+        GetSubFeature();
+    });
+
+    var GetSubFeature = function () {
+         $.ajax({
+            url: '@Url.Action("GetSubFeature", "Products")',
+            type: 'GET',
+            data: {
+                categoryId: $('#categoryId').val(),
+            },
+            success: function (data) {
+                $('#SubFeatureId').find('label').remove()
+                $('#SubFeatureId').find('input').remove()
+
+                $(data).each(
+                    function (index, item) {
+
+                        $('#SubFeatureId').append('<label> ' + item.feature + '</label>')
+
+
+                    });
+            },
+            error: function () {
+            }
+           });
+    }
+    
+</script>

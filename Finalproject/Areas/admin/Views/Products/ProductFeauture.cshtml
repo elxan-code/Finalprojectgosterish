@@ -1,0 +1,102 @@
+﻿@model VmFeatures
+@{
+    ViewData["Title"] = "ProductFeauture";
+}
+
+<div class="container">
+    <form asp-area="admin" asp-controller="products" asp-action="ProductFeauture" method="post">
+        <div class="itemContainer">
+            @*@{ int i = 0;}*@
+            
+                <div class="row ColorImageItem mb-5" data-index="">
+                    
+                    <div class="col-lg-12 SizeToColorContainer">
+                        <div class="row SizeToColorItem">
+                            
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    <label   class="form-label">FeatureMain</label>
+                                    <input type="text" class="form-control" name="[].FeatureMain">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    <label  class="form-label">FeatureChild</label>
+                                    <input type="text" class="form-control" name="[].FeatureChild">
+                                </div>
+                            </div>
+                            <input hidden class="form-control" name="[].ProductId" value="@ViewData["salam"]">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-success addNewItem"  >+</button>
+                    </div>
+
+                    <hr />
+                </div>           
+            
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="submit" class="btn btn-primary">Next</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //$(".addNewItem").click(function () {
+
+        //    let index = $(this).data("index");
+        //    let ColorImageItem = $(".ColorImageItem");
+        //    let SizeToColorItems = $(".SizeToColorItem");
+
+        //    for (var i = 0; i < ColorImageItem.length; i++) {
+        //        if (ColorImageItem[i].dataset.index == index) {
+        //            let SizeToColorContainer = $(ColorImageItem[i]).find(".SizeToColorContainer");
+        //            let SizeToColorItem = ($(ColorImageItem[i]).find(".SizeToColorItem"))[0].cloneNode(true);
+
+        //            let formControls = $(SizeToColorItem).find(".form-control");
+
+        //            //formControls[0].setAttribute("name", `[${SizeToColorItems.length}].SizeId`);
+        //            formControls[0].setAttribute("name", `[${SizeToColorItems.length}].FeatureMain`);
+        //            formControls[1].setAttribute("name", `[${SizeToColorItems.length}].FeatureChild`);
+        //            formControls[2].setAttribute("name", `[${SizeToColorItems.length}].ProductId`);
+
+        //            //console.log(SizeToColorItem);
+        //            //console.log(formControls);
+        //            //console.log(SizeToColorItems);
+        //            //console.log(SizeToColorItems.length);
+
+        //            SizeToColorContainer.append(SizeToColorItem);
+        //        }
+        //    }
+        //});
+
+        $(".addNewItem").click(function () {
+
+            let ColorImageItems = $(".ColorImageItem");
+            let firstItem = $(ColorImageItems[0].cloneNode(true));
+            let formControls = firstItem.find(".form-control");
+
+            //formControls[0].setAttribute("name", `[${ColorImageItems.length}].ColorId`);
+            formControls[0].setAttribute("name", `[${ColorImageItems.length}].FeatureMain`);
+            formControls[0].setAttribute("name", `[${ColorImageItems.length}].FeatureChild`);
+            formControls[0].setAttribute("name", `[${ColorImageItems.length}].ProductId`);
+
+            formControls[0].value = "";
+
+            let itemContainer = $(".itemContainer");
+            itemContainer.append(firstItem);
+        });
+
+      
+
+})
+    </script>

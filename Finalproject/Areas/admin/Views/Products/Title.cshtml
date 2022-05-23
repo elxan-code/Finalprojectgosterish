@@ -1,0 +1,30 @@
+﻿@model  VmTitle
+
+@{
+    ViewData["Title"] = "Title";
+}
+
+<h1>Title</h1>
+
+<h4>FeatureTitle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Title">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          
+            <div class="form-group">
+                <select asp-for="FeatureTitles.SubFeatureId" class="form-control" asp-items="ViewBag.SubFeatureId"></select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

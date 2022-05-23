@@ -1,0 +1,211 @@
+﻿@model VmHome
+@{ ViewData["Title"] = "Index"; }
+
+<section id="titleforall">
+    <div class="titlecontact">
+        <i class="fa-solid fa-house"></i>
+        <p>Specials</p>
+    </div>
+
+</section>
+
+
+<section id="left">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="container">
+                        <div class="wc-sc-product woocommerce featured-layout-1" style=" margin-top: 70px; margin-bottom: 10px;">
+                <div class="inner-sc-product">
+                    <ul class="products columns-3">
+                     
+                        @foreach (var item in Model.Products.OrderByDescending(m => m.Id))
+                        {
+
+                            {
+
+                                DateTime? itemDiscount = item.DiscountDate;
+
+                                if (itemDiscount != null && itemDiscount > DateTime.Now)
+                                {
+            <li class="product" style=" max-width: 269px;">
+                <div class="inner-item-product">
+                    <div class="product-image">
+                       
+                    <span class="onsale">@item.Discountfaiz</span> 
+                        <a asp-controller="Product" asp-action="ProductDetails" asp-route-id="@item.Id" class="wp-post-image">
+                            <img src="~/ProductDetails/@item.ProductToProduct.FirstOrDefault().ProductImages.FirstOrDefault().Image" alt="">
+                            <img src="~/ProductDetails/@item.ProductToProduct.LastOrDefault().ProductImages.FirstOrDefault().Image" class="product-change-images" alt="">
+                        </a>
+                        <div class="box-hover">
+                            <a asp-controller="Product" asp-action="ProductDetails" asp-route-id="@item.Id" class="quick-view">
+
+                            </a>
+                            <div class="yith-wcwl-add-to-wishlist">
+                                <a asp-controller="Product" asp-action="AddToWishlest" asp-route-id="@item.Id" class="button add_to_wishlist single_add_to_wishlist  @(Model.Cart1 != null && Model.Cart1.Any(c => c == item.Id.ToString()) == true ? "inCart1" : " ") "></a>
+                            </div>
+                            <a asp-controller="Product" asp-action="addToCart" asp-route-id="@item.Id" class="button product_type_simple add_to_cart_button ajax_add_to_cart  @(Model.Cart2 != null && Model.Cart2.Any(c => c == item.Id.ToString()) == true ? "inCart" : " ") "></a>
+                            @*<a asp-controller="Product" asp-action="addToCart" asp-route-id="@item.Id" class="button product_type_simple add_to_cart_button ajax_add_to_cart   @(Model.Cart2 != null && Model.Cart2.Any(c => c == item.Id.ToString()) == true ? "foradd2" : "foradd")">Add to cart</a>*@
+                        </div>
+                    </div>
+                    <div class="wrapper-content-item">
+                        <h2 class="woocommerce-loop-product_title">
+                            <a asp-controller="Product" asp-action="ProductDetails" asp-route-id="@item.Id">
+                                @item.Brand  @item.Model (@item.Color)
+                            </a>
+                        </h2>               
+                        <div class="col-lg-12 user-rate" style="margin-left: 55px; ">
+                            @{var s = Model.Comments.Where(z => z.ProductId == item.Id).Select(q => q.Star).ToArray().ToList();
+                                //var q = Convert.ToInt32(s);
+
+                                }
+                            @for (int b = 0; b < s.Count; b++)
+                            {
+
+
+                            @if (s[b] == 0)
+                            {
+
+
+                            }
+                            else if (b < 1)
+                            {
+                        <div class="rating-groupp">
+                            <fieldset class="rate rateClass">
+                                <label for="rating10" class="@( Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Count() == 5 ? "star" : "" )" title="5"></label>
+
+                                <label for="rating8" class="@( Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Count() >= 4 ? "star" : "" )" title="4"></label>
+
+                                <label for="rating6" class="@( Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Count() >= 3 ? "star" : "" )" title="3"></label>
+
+                                <label for="rating4" class="@( Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Count() >= 2 ? "star" : "" )" title="2"></label>
+
+                                <label for="rating2" class="@( Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Sum(s => s.Star) / Model.Comments.Where(z => z.ProductId == item.Id).Where(a => a.Star >= 1).Count() >= 1 ? "star" : "" )" title="1"></label>
+
+                            </fieldset>
+
+                        </div>}
+
+                            }
+                        </div>
+
+                       
+
+
+                        <span class="price">
+                            @if (itemDiscount != null && itemDiscount > DateTime.Now)
+                            {
+                    <del>
+                        <span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol"></span>@item.Price
+                        </span>
+                    </del>
+                                        <ins>
+                                            <span class="woocommerce-Price-amount amount">
+                                                <span class="woocommerce-Price-currencySymbol"></span>@item.DiscountPrice
+                                            </span>
+                                        </ins> }
+                            else
+                            {
+                    <ins>
+                        <span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol"></span>@item.Price
+                        </span>
+                    </ins>}
+                        </span>
+                    </div>
+                </div>
+            </li>
+                                        }
+                                    }
+
+                                }
+
+                    </ul>
+                </div>
+            </div>
+                    </div>
+
+                </div>
+                
+            </div>
+
+
+            <div class="col-lg-4">
+                <div class="forborder">
+                    <h5>Information</h5>
+                    <a href="">
+                        <p>About us</p>
+                    </a>
+                    <a href="">
+                        <p>Delivery Information </p>
+                    </a>
+                    <a href="">
+                        <p>Privacy Policy </p>
+                    </a>
+                    <a href="">
+                        <p>Terms & Conditions </p>
+                    </a>
+                    <a href="">
+                        <p>Contact Us </p>
+                    </a>
+                </div>
+
+                @foreach (var item in Model.Advertisings)
+                {
+            <div>
+                <a href="@item.Link"><img class="reklamucun" src="~/UploadsAdvertising/@item.Image" alt=""></a>
+            </div>}
+                <div class="forborder">
+                    <h5>Latest</h5>
+
+                    @{ int v = 0; }
+                    @foreach (var item in Model.Products.OrderByDescending(m => m.Category))
+                    {
+                        if (v < 3)
+                        {
+                            DateTime? itemDiscount = item.DiscountDate;
+                            if (itemDiscount != null && itemDiscount > DateTime.Now)
+                            {
+            <div class="d-flex forhoverimage">
+                <a asp-controller="Product" asp-action="ProductDetails" asp-route-id="@item.Id">
+
+                    <img src="~/ProductDetails/@item.ProductToProduct.FirstOrDefault().ProductImages.FirstOrDefault().Image" alt="">
+                    <div class="latest">
+                        <p> @item.Brand (@item.Model)</p>
+                        <div class="d-flex">
+                            <p class="latestp1">@item.DiscountPrice</p>
+                            <p class="latestp2">@item.Price</p>
+                        </div>
+                    </div>
+
+                </a>
+
+            </div>v++;
+        }
+
+    }
+
+}
+
+
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+</section>
+
+
+<section id="button">
+    <a class="top_button" title="Back To Top" href="#" style="display: block;"></a>
+</section>
+
+
